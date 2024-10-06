@@ -5,5 +5,12 @@
         "due_date": null,
         "category": "Test",
         "completed": true
+    },
+    {
+        "title": "Test",
+        "description": "Test",
+        "due_date": null,
+        "category": "Test",
+        "completed": false
     }
 ]
