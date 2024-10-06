@@ -10,7 +10,8 @@ def main_menu():
     print("3. Complete Task")
     print("4. Delete Task")
     print("5. Edit Task")
-    print("6. Exit")
+    print("6. Filter Tasks")
+    print("7. Exit")
 
 
 def add_task(tasks):
@@ -65,6 +66,28 @@ def edit_task(tasks):
     print(f"No task found with title '{task_title}'.")
 
 
+def filter_tasks(tasks):
+    filter_option = input("Filter by: \n1. Category \n2. Due Date \nChoose an option: ")
+
+    if filter_option == '1':
+        category = get_valid_input("Enter category to filter by: ")
+        filtered_tasks = [task for task in tasks if task.category == category]
+        if filtered_tasks:
+            for i, task in enumerate(filtered_tasks, start=1):
+                print(f"{i}. {task}")
+        else:
+            print(f"No tasks found for category '{category}'.")
+
+    elif filter_option == '2':
+        due_date = get_date_input("Enter due date(YYYY-MM-DD) to filter by: ")
+        filtered_tasks = [task for task in tasks if task.due_date == due_date]
+        if filtered_tasks:
+            for i, task in enumerate(filtered_tasks, start=1):
+                print(f"{i}. {task}")
+        else:
+            print(f"No tasks found with due date '{due_date}'.")
+
+
 def complete_task(tasks):
     task_title = get_valid_input("Enter the title of the task to mark complete: ")
     for task in tasks:
@@ -99,6 +122,8 @@ def main():
         elif choice == '5':
             edit_task(tasks)
         elif choice == '6':
+            filter_tasks(tasks)
+        elif choice == '7':
             print("Goodbye!")
             break
         else:
