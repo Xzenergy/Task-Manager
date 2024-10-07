@@ -1,15 +1,8 @@
 [
     {
-        "title": "Test",
-        "description": "Test",
-        "due_date": null,
-        "category": "Test",
-        "completed": false
-    },
-    {
-        "title": "Test",
-        "description": "Test",
-        "due_date": null,
+        "title": "Test Task",
+        "description": "A simple test task",
+        "due_date": "2024-10-10",
         "category": "Test",
         "completed": false
     }
