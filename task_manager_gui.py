@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import messagebox, ttk
 from task import Task
 from task_storage import save_tasks, load_tasks
 
@@ -8,6 +8,8 @@ class TaskManagerApp:
     def __init__(self, root):
         self.root = root
         self.root.title("XZenTask")
+        self.root.geometry("400x500")
+        self.root.configure(bg="lightgreen")
         
         
         #Load tasks
@@ -15,22 +17,29 @@ class TaskManagerApp:
         
         
         #Main UI components
-        self.title_label = tk.Label(root, text="XZenTask", font=("Helvetica", 16))
-        self.title_label.pack(pady=10)
+        self.title_label = tk.Label(root, text="XZenTask", font=("Helvetica", 20, "bold", "italics"))
+        self.title_label.pack(pady=20)
         
         
-        self.add_task_button = tk.Button(root, text="Add Task", command=self.add_task)
+        #Dropdown for sorting tasks
+        self.sort_by_var = tk.StringVar(value="Sort by")
+        sort_options = ["Due Date", "Completion Status"]
+        self.sort_by_dropdown = ttk.Combobox(root, textvariable=self.sort_by_var, values=sort_options, state="readonly")
+        self.sort_by_dropdown.pack(pady=10)
+        
+        #Buttons with custom styles
+        self.add_task_button = tk.Button(root, text="Add Task", command=self.add_task, bg="green", fg="white", font=("Arial", 12))
         self.add_task_button.pack(pady=5)
         
         
-        self.list_tasks_button = tk.Button(root, text="List Tasks", command=self.list_tasks)
+        self.list_tasks_button = tk.Button(root, text="List Tasks", command=self.list_tasks, bg="blue", fg="white", font=("Arial", 12))
         self.list_tasks_button.pack(pady=5)
         
         
-        self.complete_task_button = tk.Button(root, text="Complete Task", command=self.complete_task)
+        self.complete_task_button = tk.Button(root, text="Complete Task", command=self.complete_task, bg="orange", fg="black", font=("Arial", 12))
         self.complete_task_button.pack(pady=5)
         
-        self.delete_task_button = tk.Button(root, text="Delete Task", command=self.delete_task)
+        self.delete_task_button = tk.Button(root, text="Delete Task", command=self.delete_task, bg="red", fg="white", font=("Arial", 12))
         self.delete_task_button.pack(pady=5)
         
 
@@ -89,7 +98,13 @@ class TaskManagerApp:
     
     
     def list_tasks(self):
-        #Show all tasks in a new window
+        sort_option = self.sort_by_var.get()
+        if sort_option == "Due Date":
+            self.tasks.sort(key=lambda task: (task.due_date is None, task.due_date))
+        elif sort_option == "Completion Status":
+            self.tasks.sort(key=lambda task: task.completed)
+            
+        #Create a new window to display the tasks
         list_window = tk.Toplevel(self.root)
         list_window.title("Task List")
     
@@ -99,8 +114,8 @@ class TaskManagerApp:
     
         for i, task in enumerate(self.tasks, start=1):
             task_label = tk.Label(list_window, text=f"{i}. {task}")
-            task_label.pack()
-        
+            task_label.pack()  
+
 
 
     def complete_task(self):
@@ -165,7 +180,37 @@ class TaskManagerApp:
         delete_button.pack(pady=10)
     
     
-    
+    def edit_task(self):
+        edit_window = tk.Toplevel(self.root)
+        edit_window.title("Edit Task")
+        
+        tk.Label(edit_window, text="Enter Task Title to Edit:").pack(pady=5)
+        task_title_entry = tk.Entry(edit_window)
+        task_title_entry.pack()
+        
+        def load_task_for_edit():
+            task_title = task_title_entry.get()
+            
+            for task in self.tasks:
+                if task.title == task_title:
+                    title_var.set(task.title)
+                    description_var.set(task.description)
+                    due_date_var.set(task.due_date)
+                    category_var.set(task.category)
+                    return
+            messagebox.showerror("Error", f"No task found wittitle '{task_title}'.")
+            
+            
+        #Pre-populate fields with the tasks's current values
+        
+        
+        
+        
+        
+        
+        
+        
+        
 #Main Loop
 if __name__ == "__main__":
     root = tk.Tk()
