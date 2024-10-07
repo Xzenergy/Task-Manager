@@ -74,6 +74,10 @@ def edit_task(tasks):
          
 
 def filter_tasks(tasks):
+    if not tasks:
+        print("No tasks available to filter.")
+        return
+    
     filter_option = input("Filter by: \n1. Category \n2. Due Date \nChoose an option: ")
 
     if filter_option == '1':
@@ -87,12 +91,19 @@ def filter_tasks(tasks):
 
     elif filter_option == '2':
         due_date = get_date_input("Enter due date(YYYY-MM-DD) to filter by: ")
-        filtered_tasks = [task for task in tasks if task.due_date == due_date]
-        if filtered_tasks:
-            for i, task in enumerate(filtered_tasks, start=1):
-                print(f"{i}. {task}")
+
+        if due_date:
+            filtered_tasks = [task for task in tasks if task.due_date == due_date]
+            
+            if filtered_tasks:
+                for i, task in enumerate(filtered_tasks, start=1):
+                    print(f"{i}. {task}")
+            else:
+                print(f"No tasks found with due date '{due_date}'.")
         else:
-            print(f"No tasks found with due date '{due_date}'.")
+            print("Invalid due date provided.")
+    else:
+        print("Invalid filter option selected.")
 
 
 def complete_task(tasks):
