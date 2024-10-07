@@ -45,26 +45,33 @@ def list_tasks(tasks):
 
 def edit_task(tasks):
     task_title = get_valid_input("Enter the title of the task to edit: ")
-    for task in tasks:
-        if task.title == task_title:
-            print(f"Editing Task: {task}")
+    
+    task_to_edit = next((task for task in tasks if tasks.title == task_title), None)
 
-            new_title = get_valid_input(f"Enter new title or leave blank to keep '{task.title}': ", optional=True)
-            new_description = get_valid_input(f"Enter new description or leave blank to keep '{task.description}': ", optional=True)
-            new_due_date = get_date_input(f"Enter new due date (YYYY-MM-DD) or leave blank to keep '{task.due_date}': ")
-            new_category = get_valid_input(f"Enter new category or leave blank to keep '{task.category}': ", optional=True)
-
-            #Update the task only if new values are provided
-            task.title = new_title if new_title else task.title
-            task.description = new_description if new_description else task.description
-            task.due_date = new_due_date if new_due_date else task.due_date
-            task.category = new_category if new_category else task.category
-
-            save_tasks(tasks)
-            print(f"Task '{task_title}' updated!")
+    if not task_to_edit:
+            print(f"No task found with the title '{task_title}'.")
             return
-    print(f"No task found with title '{task_title}'.")
+    
+    print(f"Editing Task: {task_to_edit}")
 
+    new_title = get_valid_input(f"Enter new title or leave blank to keep '{task_to_edit.title}': ", optional=True)
+    new_description = get_valid_input(f"Enter new description or leave blank to keep '{task_to_edit.description}': ", optional=True)
+    new_due_date = get_date_input(f"Enter new due date (YYYY-MM-DD) or leave blank to keep '{task_to_edit.due_date}': ")
+    new_category = get_valid_input(f"Enter new category or leave blank to keep '{task_to_edit.category}': ", optional=True)
+
+    if not new_title and not new_description and not new_due_date and not new_category:
+        print("No changes have been made. Task was not updated.")
+        return
+
+    #Update the task only if new values are provided
+    task_to_edit.title = new_title if new_title else task_to_edit.title
+    task_to_edit.description = new_description if new_description else task_to_edit.description
+    task_to_edit.due_date = new_due_date if new_due_date else task_to_edit.due_date
+    task_to_edit.category = new_category if new_category else task_to_edit.category
+
+    save_tasks(tasks)
+    print(f"Task '{task_title}' has been updated!")
+         
 
 def filter_tasks(tasks):
     filter_option = input("Filter by: \n1. Category \n2. Due Date \nChoose an option: ")
