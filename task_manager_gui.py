@@ -198,11 +198,36 @@ class TaskManagerApp:
                     due_date_var.set(task.due_date)
                     category_var.set(task.category)
                     return
-            messagebox.showerror("Error", f"No task found wittitle '{task_title}'.")
+            messagebox.showerror("Error", f"No task found with title '{task_title}'.")
             
             
         #Pre-populate fields with the tasks's current values
-        
+        title_var = tk.StringVar()
+        description_var = tk.StringVar()
+        due_date_var = tk.StringVar()
+        category_var = tk.StringVar()
+
+        tk.Label(edit_window, text="Title:").pack(pady=5)
+        title_entry = tk.Entry(edit_window, textvariable=title_var)
+        title_entry.pack()
+
+        tk.Label(edit_window, text="Description:").pack(pady=5)
+        description_entry = tk.Entry(edit_window, textvariable=description_var)
+        description_entry.pack()
+
+        tk.Label(edit_window, text="Due Date (YYYY-MM-DD):").pack(pady=5)
+        due_date_entry = tk.Entry(edit_window, textvariable=due_date_var)
+        due_date_entry.pack()
+
+        tk.Label(edit_window, text="Category:").pack(pady=5)
+        category_entry = tk.Entry(edit_window, textvariable=category_var)
+        category_entry.pack()
+
+
+
+        def save_edited_task():
+
+
         
         
         
