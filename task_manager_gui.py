@@ -17,7 +17,7 @@ class TaskManagerApp:
         
         
         #Main UI components
-        self.title_label = tk.Label(root, text="XZenTask", font=("Helvetica", 20, "bold", "italics"))
+        self.title_label = tk.Label(root, text="XZenTask", font=("Helvetica", 20, "bold", "italic"))
         self.title_label.pack(pady=20)
         
         
@@ -89,7 +89,7 @@ class TaskManagerApp:
             self.tasks.append(new_task)
             save_tasks(self.tasks)
             messagebox.showinfo("Success", "Task added successfully!")
-            add_window.destory()
+            add_window.destroy()
         
         #Add the save button
         save_button = tk.Button(add_window, text="Save Task", command=save_new_task)
@@ -135,7 +135,7 @@ class TaskManagerApp:
          
          for task in self.tasks:
              if task.title == task_title:
-                 task.mark_complete()
+                 task.mark_completed()
                  save_tasks(self.tasks)
                  messagebox.showinfo("Success", f"Task '{task_title}' marked as complete!")
                  complete_window.destroy()
@@ -226,13 +226,28 @@ class TaskManagerApp:
 
 
         def save_edited_task():
-
-
+            task_title = task_title_entry.get()
+            for task in self.tasks:
+                if task.title == task_title:
+                    task.title = title_var.get()
+                    task.description = description_var.get()
+                    task.due_date = due_date_var.get()
+                    task.category = category_var.get()
+                    save_tasks(self.tasks)
+                    messagebox.showinfo("Success", f"Task '{task_title}' updated!")
+                    edit_window.destroy()
+                    return
+            messagebox.showerror("error", f"No task found with title '{task_title}'.")
+            
         
         
+        #Buttons for loading task and saving edited task
+        load_task_button = tk.Button(edit_window, text="Load Task", command=load_task_for_edit)
+        load_task_button.pack(pady=5)
         
-        
-        
+        save_button = tk.Button(edit_window, text="Save task", command=save_edited_task)
+        save_button.pack(pady=10)
+     
         
         
         
