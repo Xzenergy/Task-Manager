@@ -9,15 +9,23 @@ class TaskManagerApp:
         self.root = root
         self.root.title("XZenTask")
         self.root.geometry("400x500")
-        self.root.configure(bg="lightgreen")
+        self.root.configure(bg="#f0f0f0")
         
         
         #Load tasks
         self.tasks = load_tasks()
         
+
+        style = ttk.Style()
+        style.configure("TButton", font=("Helvetica", 12), padding=6, background="#4CAF50", foreground="white", borderwidth=0, relief="flat")
+        style.map("TButton", background=[("active", "#45a049")])#Button color on hover
+
+
         
         #Main UI components
-        self.title_label = tk.Label(root, text="XZenTask", font=("Helvetica", 20, "bold", "italic"))
+
+        #Title Label
+        self.title_label = tk.Label(root, text="XZenTask", font=("Helvetica", 20, "bold", "italic"), bg="#f0f0f0", fg="#333333")
         self.title_label.pack(pady=20)
         
         
@@ -48,25 +56,27 @@ class TaskManagerApp:
         #Create a pop-up window to add tasks
         add_window = tk.Toplevel(self.root)
         add_window.title("Add Task")
+        add_window.geometry("300x300")
+        add_window.coonfigure(bg="#ffffff") #White background
     
     
         #Labels and Entries
-        tk.Label(add_window, text="Title:").pack(pady=5)
+        tk.Label(add_window, text="Title:", font=("Arial", 10), bg="#ffffff").pack(pady=5)
         title_entry = tk.Entry(add_window)
         title_entry.pack()
     
     
-        tk.Label(add_window, text="Description:").pack(pady=5)
+        tk.Label(add_window, text="Description:", font=("Arial", 10), bg="#ffffff").pack(pady=5)
         description_entry = tk.Entry(add_window)
         description_entry.pack()
     
     
-        tk.Label(add_window, text="Due Date (YYYY-MM-DD):").pack(pady=5)
+        tk.Label(add_window, text="Due Date (YYYY-MM-DD):", font=("Arial", 10), bg="#ffffff").pack(pady=5)
         due_date_entry = tk.Entry(add_window)
         due_date_entry.pack()
     
     
-        tk.Label(add_window, text="Category:").pack(pady=5)
+        tk.Label(add_window, text="Category:", font=("Arial", 10), bg="#ffffff").pack(pady=5)
         category_entry = tk.Entry(add_window)
         category_entry.pack()
     
